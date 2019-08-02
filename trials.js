@@ -51,19 +51,67 @@ showPhoneNums(phoneNumbers);
 // Transactions:
 
 // Create an empty map of transactions
-
+const transactions = new Map();
 
 // Add function to add transactions
-
+function addTransaction(date, amount) {
+  transactions.set(date, amount);
+//balance += amount;
+  console.log(transactions);
+}
 
 // Use the function to add transactions
-
+addTransaction('May 2', -500);
+addTransaction('May 13', +1200);
+addTransaction('May 15', -100);
+addTransaction('May 21', -359);
+addTransaction('May 29', +2200);
 
 // Add function to show balance status
+function showBalanceStatus(bal) {
+
+  console.log(`Balance: ${bal}`);
+  if (bal < 0) {
+    console.log('You are overdrawn.');
+  } else if (bal < 20) {
+    console.log('Warning: You are close to zero balance.');
+  } else {
+    console.log('Thank you for your business.');
+  }
+}
+showBalanceStatus(-650);
+showBalanceStatus(6);
+showBalanceStatus(50);
 
 
 // Add function to show transactions
+function showTransactions(beginningBalance) {
+  let balance = beginningBalance;
+  let hasOverdrawn = false;
+  let transType;
+  console.log(`Beginning Balance: ${balance}`);
+  for (const [key, val] of transactions) {
+    if (val > 0) {
+      transType = 'Deposit';
+    } else {
+      transType = 'Withdrawal';
+    }
+    console.log(`${transType} transaction: ${key}: ${val}`);
+    balance += val;
+    
+    if (balance < 0 && hasOverdrawn === false) {
+      showBalanceStatus(balance);
+      console.log('We are charging a one-time overdrawn fee of $25');
+      balance -= 25;
+      console.log(`New balance: ${balance}`);
+      hasOverdrawn = true;
+    } else {
+      console.log(`Balance: ${balance}`);
+    }
+  }
+}
 
+showTransactions(26000);
 
 // ///////////////////////////////////////////////////////
 // All Customer Info:
